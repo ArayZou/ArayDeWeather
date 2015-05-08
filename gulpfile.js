@@ -4,7 +4,6 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var wrench = require('wrench');
 
-
 var options = {
   src: 'src',
   dist: 'dist',
@@ -18,7 +17,7 @@ var options = {
   },
   wiredep: {
     directory: 'bower_components',
-    exclude: [/foundation\.js/, /foundation\.css/]
+    exclude: [/bootstrap-sass-official\/.*\.js/, /bootstrap\.css/]
   }
 };
 
@@ -30,13 +29,4 @@ wrench.readdirSyncRecursive('./gulp').filter(function(file) {
 
 gulp.task('default', ['clean'], function () {
     gulp.start('build');
-});
-
-var ghPages = require('gulp-gh-pages');
-var ghPagesOption = {
-  remoteUrl:'git@github.com:ArayZou/ArayDeWeather.git'
-}
-gulp.task('deploy', function() {
-  return gulp.src('./dist/**/*')
-    .pipe(ghPages(ghPagesOption));
 });
