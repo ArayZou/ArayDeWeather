@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('arayDeWeather')
-  .controller('MainCtrl', function ($scope,$http,$window,WeatherIcon) {
+  .controller('MainCtrl', function ($scope,$http,$window,WeatherIcon,WeatherWindDeg,WeatherWindLevel) {
     $scope.showloading = true;
 
     getLocation();
@@ -25,7 +25,7 @@ angular.module('arayDeWeather')
       $http
         .jsonp('http://api.map.baidu.com/geocoder/v2/?ak=izzcWKDNO77b3VodC1ipezPh&callback=JSON_CALLBACK&location='+lat+','+lon+'&output=json&pois=1')
         .success(function(location){
-          console.log(location)
+          console.log(location);
           $scope.location = location.result;
         });
 
@@ -37,35 +37,10 @@ angular.module('arayDeWeather')
           console.log(weather);
           $scope.weather = weather;
           //计算风向
-          switch(true){
-            case (weather.wind.deg>=0 && weather.wind.deg < 22.5):
-              weather.wind.deg = '北';
-              break;
-            case (weather.wind.deg>=22.5 && weather.wind.deg < 67.5):
-              weather.wind.deg = '东北';
-              break;
-            case (weather.wind.deg>=67.5 && weather.wind.deg < 112.5):
-              weather.wind.deg = '东';
-              break;
-            case (weather.wind.deg>=112.5 && weather.wind.deg < 157.5):
-              weather.wind.deg = '东南';
-              break;
-            case (weather.wind.deg>=157.5 && weather.wind.deg < 202.5):
-              weather.wind.deg = '南';
-              break;
-            case (weather.wind.deg>=202.5 && weather.wind.deg < 247.5):
-              weather.wind.deg = '西南';
-              break;
-            case (weather.wind.deg>=247.5 && weather.wind.deg < 292.5):
-              weather.wind.deg = '西';
-              break;
-            case (weather.wind.deg>=292.5 && weather.wind.deg < 337.5):
-              weather.wind.deg = '西北';
-              break;
-            case (weather.wind.deg>=337.5 && weather.wind.deg <= 360):
-              weather.wind.deg = '北';
-              break;
-          };
+          weather.wind.deg = WeatherWindDeg(weather.wind.deg);
+          //计算风力
+          weather.wind.windinfo = WeatherWindLevel(weather.wind.speed);
+          //天气icon转换
           weather.weather[0].id = WeatherIcon(weather.weather[0].id);
           $scope.showloading = false;
         }

@@ -5,9 +5,14 @@
     <p>{{weather.weather[0].description}}</p>
     <p><i class="wi {{weather.weather[0].id}}"></i></p>
     <p>当前温度{{weather.main.temp - 273.15  | number:0}}<i class="wi wi-degrees"></i></p>
+    <p>最高温度{{weather10Day.list[0].temp.max - 273.15  | number:0}}<i class="wi wi-degrees"></i></p>
+    <p>最低温度{{weather10Day.list[0].temp.min - 273.15  | number:0}}<i class="wi wi-degrees"></i></p>
     <p>风速{{weather.wind.speed}}mps</p>
+    <p>风力{{weather.wind.windinfo.level}}   {{weather.wind.windinfo.windname}}</p>
+    <p>{{weather.wind.windinfo.windintro}}</p>
     <p>风向{{weather.wind.deg}}风</p>
     <p>湿度{{weather.main.humidity}}%</p>
     <p>气压{{weather.main.pressure | number:0}}hPa</p>
+
   </div>
 </div>
