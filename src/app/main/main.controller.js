@@ -4,8 +4,6 @@ angular.module('arayDeWeather')
   .controller('MainCtrl', function ($scope,$http,$window,WeatherIcon,WeatherWindDeg,WeatherWindLevel) {
     $scope.showloading = true;
 
-    getLocation();
-
     //定位
     function getLocation(){
       if ($window.navigator.geolocation) {
@@ -46,6 +44,7 @@ angular.module('arayDeWeather')
         }
       });
 
+
       //5天每3小时天气数据
       $http({
         url: 'http://api.openweathermap.org/data/2.5/forecast?lat='+lat+'&lon='+lon+'&lang=zh_cn&APPID=ed158d368307ef2644fe349ffa6a50d4'
@@ -53,6 +52,39 @@ angular.module('arayDeWeather')
         if(weather3Hour.cod==='200') {
           console.log(weather3Hour);
           $scope.weather3Hour = weather3Hour;
+
+          var chartdata = {
+            chart: {
+              type: 'line'
+            },
+            title: null,
+            subtitle: null,
+            xAxis: {
+              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yAxis: {
+              showEmpty:false,
+              title:{
+                text:null
+              }
+            },
+            plotOptions: {
+              line: {
+                dataLabels: {
+                  enabled: true
+                },
+                enableMouseTracking: false
+              }
+            },
+            series: [{
+              name: 'max',
+              data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            }, {
+              name: 'min',
+              data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+            }]
+          };
+          $scope.basicAreaChart = chartdata;
         }
       });
 
@@ -66,6 +98,8 @@ angular.module('arayDeWeather')
         }
       });
     }
+
+    getLocation();
 
     //$scope.awesomeThings = [
     //  {
