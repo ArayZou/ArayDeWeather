@@ -1,5 +1,6 @@
+"use strict";
+
 angular.module('arayDeWeather').factory('WeatherIcon', function() {
-  //console.log('MTCommonStorage');
   return function(codes){
     var weathermap = {
       '200' :	'wi-thunderstorm',   //thunderstorm with light rain
@@ -81,7 +82,7 @@ angular.module('arayDeWeather').factory('WeatherIcon', function() {
       '960' :	'wi-thunderstorm',   //storm
       '961' :	'wi-thunderstorm',   //violent storm
       '962' :	'wi-hurricane'    //hurricane
-    }
+    };
     return weathermap[codes] || 'wi-refresh';
   }
 });

@@ -50,20 +50,58 @@ angular.module('arayDeWeather')
         url: 'http://api.openweathermap.org/data/2.5/forecast?lat='+lat+'&lon='+lon+'&lang=zh_cn&APPID=ed158d368307ef2644fe349ffa6a50d4'
       }).success(function(weather3Hour){
         if(weather3Hour.cod==='200') {
+          for(var i =0;i<weather3Hour.list.length;i++){
+            var timedate = new Date(weather3Hour.list[i].dt * 1000);
+            weather3Hour.list[i].timedate = ('0' + (timedate.getMonth() + 1)).slice(-2) + '/' + ('0' + timedate.getDate()).slice(-2);
+            weather3Hour.list[i].timeclock = ('0' + (timedate.getHours() + 1)).slice(-2) + ':' + ('0' + timedate.getMinutes()).slice(-2);
+            weather3Hour.list[i].weather[0].id = WeatherIcon(weather3Hour.list[i].weather[0].id);
+          }
+
           console.log(weather3Hour);
           $scope.weather3Hour = weather3Hour;
 
+        }
+      });
+
+      //10天天气预报数据
+      $http({
+        url: 'http://api.openweathermap.org/data/2.5/forecast/daily?lat='+lat+'&lon='+lon+'&lang=zh_cn&cnt=16&mode=json&APPID=ed158d368307ef2644fe349ffa6a50d4'
+      }).success(function(weather16Day){
+        if(weather16Day.cod==='200') {
+          console.log(weather16Day);
+          $scope.weather16Day = weather16Day;
+
+          var dateArray = [],
+              maxArray = [],
+              minArray = [];
+          for(var i=0;i<5;i++){
+            var dayDate = new Date(weather16Day.list[i].dt * 1000);
+            dayDate = ('0' + (dayDate.getMonth() + 1)).slice(-2) + '/' + ('0' + dayDate.getDate()).slice(-2);
+            dateArray.push(dayDate);
+            maxArray.push(parseInt(weather16Day.list[i].temp.max - 273.15));
+            minArray.push(parseInt(weather16Day.list[i].temp.min - 273.15));
+          }
+
+
           var chartdata = {
             chart: {
-              type: 'line'
+              type: 'line',
+              spacingLeft:0,
+              spacingRight:0,
+              spacingTop:0,
+              spacingBottom:0
             },
             title: null,
             subtitle: null,
             xAxis: {
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+              categories: dateArray,
+              tickWidth: 0
             },
             yAxis: {
-              showEmpty:false,
+              showEmpty:true,
+              labels:{
+                enabled: false
+              },
               title:{
                 text:null
               }
@@ -78,23 +116,13 @@ angular.module('arayDeWeather')
             },
             series: [{
               name: 'max',
-              data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+              data: maxArray
             }, {
               name: 'min',
-              data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+              data: minArray
             }]
           };
           $scope.basicAreaChart = chartdata;
-        }
-      });
-
-      //10天天气预报数据
-      $http({
-        url: 'http://api.openweathermap.org/data/2.5/forecast/daily?lat='+lat+'&lon='+lon+'&lang=zh_cn&cnt=10&mode=json&APPID=ed158d368307ef2644fe349ffa6a50d4'
-      }).success(function(weather10Day){
-        if(weather10Day.cod==='200') {
-          console.log(weather10Day);
-          $scope.weather10Day = weather10Day;
         }
       });
     }
