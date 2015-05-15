@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('arayDeWeather')
-  .controller('MainCtrl', function ($scope,$http,$window,WeatherIcon,WeatherWindDeg,WeatherWindLevel) {
+  .controller('MainCtrl', function ($scope,$http,$window,$state,WeatherIcon,WeatherWindDeg,WeatherWindLevel,DateMoment) {
     $scope.showloading = true;
-
     //定位
     function getLocation(){
       if ($window.navigator.geolocation) {
@@ -20,12 +19,10 @@ angular.module('arayDeWeather')
       console.log('lat:'+lat);
       console.log('lon:'+lon);
       //地理数据
-      $http
-        .jsonp('http://api.map.baidu.com/geocoder/v2/?ak=izzcWKDNO77b3VodC1ipezPh&callback=JSON_CALLBACK&location='+lat+','+lon+'&output=json&pois=1')
-        .success(function(location){
-          console.log(location);
-          $scope.location = location.result;
-        });
+      $http.jsonp('http://api.map.baidu.com/geocoder/v2/?ak=izzcWKDNO77b3VodC1ipezPh&callback=JSON_CALLBACK&location='+lat+','+lon+'&output=json&pois=1').success(function(location){
+        console.log(location);
+        $scope.location = location.result;
+      });
 
       //当天天气数据
       $http({
@@ -39,95 +36,143 @@ angular.module('arayDeWeather')
           //计算风力
           weather.wind.windinfo = WeatherWindLevel(weather.wind.speed);
           //天气icon转换
-          weather.weather[0].id = WeatherIcon(weather.weather[0].id);
-          $scope.showloading = false;
-        }
-      });
+          weather.weather[0].icon = WeatherIcon(weather.weather[0].id);
 
-
-      //5天每3小时天气数据
-      $http({
-        url: 'http://api.openweathermap.org/data/2.5/forecast?lat='+lat+'&lon='+lon+'&lang=zh_cn&APPID=ed158d368307ef2644fe349ffa6a50d4'
-      }).success(function(weather3Hour){
-        if(weather3Hour.cod==='200') {
-          for(var i =0;i<weather3Hour.list.length;i++){
-            var timedate = new Date(weather3Hour.list[i].dt * 1000);
-            weather3Hour.list[i].timedate = ('0' + (timedate.getMonth() + 1)).slice(-2) + '/' + ('0' + timedate.getDate()).slice(-2);
-            weather3Hour.list[i].timeclock = ('0' + (timedate.getHours() + 1)).slice(-2) + ':' + ('0' + timedate.getMinutes()).slice(-2);
-            weather3Hour.list[i].weather[0].id = WeatherIcon(weather3Hour.list[i].weather[0].id);
-          }
-
-          console.log(weather3Hour);
-          $scope.weather3Hour = weather3Hour;
-
-        }
-      });
-
-      //10天天气预报数据
-      $http({
-        url: 'http://api.openweathermap.org/data/2.5/forecast/daily?lat='+lat+'&lon='+lon+'&lang=zh_cn&cnt=16&mode=json&APPID=ed158d368307ef2644fe349ffa6a50d4'
-      }).success(function(weather16Day){
-        if(weather16Day.cod==='200') {
-          console.log(weather16Day);
-          $scope.weather16Day = weather16Day;
-
-          var dateArray = [],
-              maxArray = [],
-              minArray = [];
-          for(var i=0;i<5;i++){
-            var dayDate = new Date(weather16Day.list[i].dt * 1000);
-            dayDate = ('0' + (dayDate.getMonth() + 1)).slice(-2) + '/' + ('0' + dayDate.getDate()).slice(-2);
-            dateArray.push(dayDate);
-            maxArray.push(parseInt(weather16Day.list[i].temp.max - 273.15));
-            minArray.push(parseInt(weather16Day.list[i].temp.min - 273.15));
-          }
-
-
-          var chartdata = {
-            chart: {
-              type: 'line',
-              spacingLeft:0,
-              spacingRight:0,
-              spacingTop:0,
-              spacingBottom:0
-            },
-            title: null,
-            subtitle: null,
-            xAxis: {
-              categories: dateArray,
-              tickWidth: 0
-            },
-            yAxis: {
-              showEmpty:true,
-              labels:{
-                enabled: false
-              },
-              title:{
-                text:null
+          //5天每3小时天气数据
+          $http({
+            url: 'http://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&lang=zh_cn&APPID=ed158d368307ef2644fe349ffa6a50d4'
+          }).success(function (weather3Hour) {
+            if (weather3Hour.cod === '200') {
+              for (var i = 0; i < weather3Hour.list.length; i++) {
+                var thisdate = weather3Hour.list[i].dt;
+                weather3Hour.list[i].timedate = DateMoment.getDateDay(thisdate);
+                weather3Hour.list[i].timeclock = DateMoment.getDateClock(thisdate);
+                weather3Hour.list[i].weekday = DateMoment.getWeekDay(thisdate);
+                weather3Hour.list[i].weather[0].icon = WeatherIcon(weather3Hour.list[i].weather[0].id);
               }
-            },
-            plotOptions: {
-              line: {
-                dataLabels: {
-                  enabled: true
-                },
-                enableMouseTracking: false
-              }
-            },
-            series: [{
-              name: 'max',
-              data: maxArray
-            }, {
-              name: 'min',
-              data: minArray
-            }]
-          };
-          $scope.basicAreaChart = chartdata;
+
+              console.log(weather3Hour);
+              $scope.weather3Hour = weather3Hour;
+
+              //16天天气预报数据
+              $http({
+                url: 'http://api.openweathermap.org/data/2.5/forecast/daily?lat=' + lat + '&lon=' + lon + '&lang=zh_cn&cnt=16&mode=json&APPID=ed158d368307ef2644fe349ffa6a50d4'
+              }).success(function (forecastByDay) {
+                if (forecastByDay.cod === '200') {
+                  console.log(forecastByDay);
+                  $scope.forecastByDay = forecastByDay;
+
+                  var dateArray = [],
+                    maxArray = [],
+                    minArray = [];
+                  $scope.forecastByDayPart1 = [];
+                  $scope.forecastByDayPart2 = [];
+                  for (var i = 0; i < 15; i++) {
+                    if (forecastByDay.list[i]) {
+                      var thisdate = forecastByDay.list[i].dt;
+                      forecastByDay.list[i].timedate = DateMoment.getDateDay(thisdate);
+                      forecastByDay.list[i].weekday = DateMoment.getWeekDay(thisdate);
+                      forecastByDay.list[i].weather[0].icon = WeatherIcon(forecastByDay.list[i].weather[0].id);
+                      if (i < 7) {
+                        var dayDate = '<div class="chart_xlabels"><span>' + DateMoment.getDateDay(thisdate) + '</span><br>' +
+                          '<span>周' + forecastByDay.list[i].weekday + '</span><br>' +
+                          '<span class="wi ' + forecastByDay.list[i].weather[0].icon + '"></span><br>' +
+                          '<span>' + forecastByDay.list[i].weather[0].description + '</span></div>';
+                        dateArray.push(dayDate);
+                        maxArray.push(parseInt(forecastByDay.list[i].temp.max - 273.15));
+                        minArray.push(parseInt(forecastByDay.list[i].temp.min - 273.15));
+                        $scope.forecastByDayPart1.push(forecastByDay.list[i]);
+                      } else {
+                        $scope.forecastByDayPart2.push(forecastByDay.list[i]);
+                      }
+                    }
+                  }
+
+                  var chartdata = {
+                    chart: {
+                      type: 'line',
+                      spacingLeft: 0,
+                      spacingRight: 0,
+                      spacingTop: 0,
+                      spacingBottom: 0
+                    },
+                    title: null,
+                    subtitle: null,
+                    xAxis: {
+                      categories: dateArray,
+                      labels: {
+                        useHTML: true
+                      }
+                    },
+                    yAxis: {
+                      showEmpty: true,
+                      labels: {
+                        enabled: false
+                      },
+                      title: {
+                        text: null
+                      }
+                    },
+                    plotOptions: {
+                      line: {
+                        dataLabels: {
+                          enabled: true
+                        },
+                        enableMouseTracking: false
+                      }
+                    },
+                    series: [{
+                      name: 'max',
+                      data: maxArray
+                    }, {
+                      name: 'min',
+                      data: minArray
+                    }]
+                  };
+                  $scope.basicAreaChart = chartdata;
+
+                  //显示内容
+                  $scope.showloading = false;
+
+                }
+              }).error(function () {
+                $state.reload();
+              });
+            }
+          }).error(function () {
+            $state.reload();
+          });
         }
+      }).error(function(){
+        $state.reload();
       });
     }
 
     getLocation();
+
+    $scope.$parent.myScrollOptions = {
+      'weather_main': {
+        snap:false,
+        probeType:1,
+        tap:true,
+        click:false,
+        //preventDefaultException:{tagName:/.*/},
+        mouseWheel:true,
+        scrollbars:true,
+        fadeScrollbars:true,
+        interactiveScrollbars:false,
+        keyBindings:false,
+        deceleration:0.0002,
+        startY:0
+      },
+      'per3hour': {
+        snap:false,
+        scrollX: true,
+        scrollY: false,
+        mouseWheel: true,
+        preventDefault: true
+      }
+    };
 
     //$scope.awesomeThings = [
     //  {

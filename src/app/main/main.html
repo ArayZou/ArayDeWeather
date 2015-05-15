@@ -1,27 +1,44 @@
-<div class="container">
-  <div class="loading" ng-if="showloading">loading...</div>
-  <div class="weather" ng-if="!showloading">
-    <p>{{location.addressComponent.city}}</p>
-    <p>{{weather.weather[0].description}}</p>
-    <p><i class="wi {{weather.weather[0].id}}"></i></p>
-    <p>当前温度{{weather.main.temp - 273.15  | number:0}}<i class="wi wi-degrees"></i></p>
-    <p>最高温度{{weather16Day.list[0].temp.max - 273.15  | number:0}}<i class="wi wi-degrees"></i></p>
-    <p>最低温度{{weather16Day.list[0].temp.min - 273.15  | number:0}}<i class="wi wi-degrees"></i></p>
-    <p>风速{{weather.wind.speed}}mps</p>
-    <p>风力{{weather.wind.windinfo.level}}   {{weather.wind.windinfo.windname}}</p>
-    <p>{{weather.wind.windinfo.windintro}}</p>
-    <p>风向{{weather.wind.deg}}风</p>
-    <p>湿度{{weather.main.humidity}}%</p>
-    <p>气压{{weather.main.pressure | number:0}}hPa</p>
-    <ul>
-      <li ng-repeat="per3hour in weather3Hour.list">
-        {{per3hour.timedate}} {{per3hour.timeclock}}
-        {{per3hour.main.temp - 273.15  | number:0}}<i class="wi wi-degrees"></i>
-        <i class="wi {{per3hour.weather[0].id}}"></i>
-        {{per3hour.weather[0].description}}
-      </li>
-    </ul>
-    <chart value='basicAreaChart' type="area" height="300" chart-obj='chartObj'>
-    </chart>
+<div class="loading" ng-if="showloading">loading...</div>
+<div ng-if="!showloading">
+  <div class="container weather_main" ng-iscroll="weather_main" ng-iscroll-delay='2000'>
+    <div class="weather_content">
+      <p>{{location.addressComponent.city}}</p>
+      <p>{{weather.weather[0].description}}</p>
+      <p><i class="wi {{weather.weather[0].icon}}"></i></p>
+      <p>当前温度{{weather.main.temp - 273.15  | number:0}}<i class="wi wi-degrees"></i></p>
+      <p>最高温度{{forecastByDay.list[0].temp.max - 273.15  | number:0}}<i class="wi wi-degrees"></i></p>
+      <p>最低温度{{forecastByDay.list[0].temp.min - 273.15  | number:0}}<i class="wi wi-degrees"></i></p>
+      <p>风速{{weather.wind.speed}}mps</p>
+      <p>风力{{weather.wind.windinfo.level}}   {{weather.wind.windinfo.windname}}</p>
+      <p>{{weather.wind.windinfo.windintro}}</p>
+      <p>风向{{weather.wind.deg}}风</p>
+      <p>湿度{{weather.main.humidity}}%</p>
+      <p>气压{{weather.main.pressure | number:0}}hPa</p>
+      <div ng-iscroll="per3hour" class="per3hourwrapper" ng-iscroll-delay='2000'>
+        <div class="per3hourscroller" style="width:{{weather3Hour.list.length * 50}}px">
+          <ul class="per3hourlist">
+            <li ng-repeat="per3hour in weather3Hour.list">
+              {{per3hour.timedate}}<br/>
+              {{per3hour.timeclock}}<br/>
+              <i class="large-wi wi {{per3hour.weather[0].icon}}"></i><br/>
+              {{per3hour.weather[0].description}}<br/>
+              {{per3hour.main.temp - 273.15  | number:0}}<i class="wi wi-degrees"></i>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <chart value='basicAreaChart' type="area" height="300" chart-obj='chartObj'>
+      </chart>
+      <ul>
+        <li ng-repeat="last10day in forecastByDayPart2">
+          {{last10day.timedate}}
+          周{{last10day.weekday}}
+          {{last10day.temp.max - 273.15  | number:0}}<i class="wi wi-degrees"></i>
+          {{last10day.temp.min - 273.15  | number:0}}<i class="wi wi-degrees"></i>
+          <i class="wi {{last10day.weather[0].icon}}"></i>
+          {{last10day.weather[0].description}}
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
