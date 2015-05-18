@@ -2,9 +2,17 @@
 <html ng-app="arayDeWeather">
   <head>
     <meta charset="utf-8">
-    <title>arayDeWeather</title>
+    <title>ArayZou'Weather</title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+    <link rel="apple-touch-startup-image" href="http://res.m.ctrip.com/html5/content/images/640.png?v=1.0" sizes="320x460">
+    <link rel="apple-touch-startup-image" href="http://res.m.ctrip.com/html5/content/images/940.png?v=1.0" sizes="640x920">
+    <link rel="apple-touch-startup-image" href="http://res.m.ctrip.com/html5/content/images/1004.png?v=1.0" sizes="768x1004">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="http://arayzou.com/img/iphone.jpg" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://arayzou.com/img/iphone.jpg" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://arayzou.com/img/iphone.jpg" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://arayzou.com/img/iphone.jpg" />
+    <link rel="icon" href="http://arayzou.com/img/favicon1.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
@@ -25,7 +33,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div ui-view></div>
+    <div ui-view class="wrap"></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
@@ -34,7 +42,7 @@
       e=o.createElement(i);r=o.getElementsByTagName(i)[0];
       e.src='//www.google-analytics.com/analytics.js';
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
+      ga('create','UA-35043536-1');ga('send','pageview');
     </script>
 
     <!-- build:js(src) scripts/vendor.js -->

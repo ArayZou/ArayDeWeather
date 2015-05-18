@@ -175,17 +175,18 @@ angular.module('arayDeWeather')
     $scope.$parent.myScrollOptions = {
       'weather_main': {
         snap:false,
-        probeType:1,
-        tap:true,
-        click:false,
-        //preventDefaultException:{tagName:/.*/},
-        mouseWheel:true,
-        scrollbars:true,
-        fadeScrollbars:true,
-        interactiveScrollbars:false,
-        keyBindings:false,
-        deceleration:0.0002,
-        startY:0
+        probeType: 2,
+        on: [
+          { beforeScrollStart: function () {
+            console.log('before:'+this.y)
+          }},
+          { scrollEnd: function () {
+            console.log('end:'+this.y)
+          }},
+          { scroll: function () {
+            console.log('on:'+this.y)
+          }}
+        ]
       },
       'per3hour': {
         snap:false,
@@ -193,6 +194,14 @@ angular.module('arayDeWeather')
         scrollY: false,
         mouseWheel: true,
         preventDefault: true
+      }
+    };
+
+    $scope.callLeftSlider = function(){
+      if($scope.showLeftSlider){
+        $scope.showLeftSlider = '';
+      }else{
+        $scope.showLeftSlider = {'-webkit-transform': 'translateX(80%)'};
       }
     };
 

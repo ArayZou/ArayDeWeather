@@ -16,7 +16,8 @@ angular.module('ng-iscroll', []).directive('ngIscroll', function ()
         snap: true,
         momentum: true,
         hScrollbar: false,
-        mouseWheel: true
+        mouseWheel: true,
+        on: []
       };
 
       // scroll key /id
@@ -29,14 +30,15 @@ angular.module('ng-iscroll', []).directive('ngIscroll', function ()
       // if ng-iscroll-form='true' then the additional settings will be supported
       if (attr.ngIscrollForm !== undefined && attr.ngIscrollForm == 'true') {
         ngiScroll_opts.useTransform = false;
-        ngiScroll_opts.onBeforeScrollStart = function (e)
-        {
-          var target = e.target;
-          while (target.nodeType != 1) target = target.parentNode;
+        ngiScroll_opts.on.push({ beforeScrollStart: function (e) {
+            var target = e.target;
+            while (target.nodeType != 1) target = target.parentNode;
 
-          if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
-            e.preventDefault();
-        };
+            if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
+              e.preventDefault();
+            }
+          }
+        });
       }
 
       if (scope.$parent.myScrollOptions) {
@@ -59,6 +61,12 @@ angular.module('ng-iscroll', []).directive('ngIscroll', function ()
         }
 
         scope.$parent.myScroll[scroll_key] = new IScroll(element[0], ngiScroll_opts);
+
+        for (var i = ngiScroll_opts.on.length - 1; i >= 0; i--) {
+          for (var key in ngiScroll_opts.on[i]) {
+            scope.$parent.myScroll[scroll_key].on(key.toString(), ngiScroll_opts.on[i][key]);
+          }
+        };
       }
 
       // new specific setting for setting timeout using: ng-iscroll-timeout='{val}'

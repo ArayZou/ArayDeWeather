@@ -1,7 +1,12 @@
-<div class="loading" ng-if="showloading">loading...</div>
-<div ng-if="!showloading">
-  <div class="container weather_main" ng-iscroll="weather_main" ng-iscroll-delay='3000'>
+<div class="loading" ng-if="showloading">
+  <div class="spinner"></div>
+</div>
+<div ng-if="!showloading" class="leftslider_wrap" ng-include="'app/components/leftslider/leftslider.html'"></div>
+<div ng-if="!showloading" class="weather_wrap" ng-style="showLeftSlider">
+  <div class="container weather_main" ng-iscroll="weather_main" ng-iscroll-delay='2000'>
     <div class="weather_content">
+      <div class="pullrefresh">下拉刷新</div>
+      <a href="javascript:;" class="leftslider_btn" ng-click="callLeftSlider()"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
       <p>{{location.addressComponent.city}}</p>
       <p>{{weather.weather[0].description}}</p>
       <p><i class="wi {{weather.weather[0].icon}}"></i></p>
@@ -14,7 +19,7 @@
       <p>风向{{weather.wind.deg}}风</p>
       <p>湿度{{weather.main.humidity}}%</p>
       <p>气压{{weather.main.pressure | number:0}}hPa</p>
-      <div ng-iscroll="per3hour" class="per3hourwrapper" ng-iscroll-delay='50'>
+      <div ng-iscroll="per3hour" class="per3hourwrapper" ng-iscroll-delay='2000'>
         <div class="per3hourscroller" style="width:{{weather3Hour.list.length * 50}}px">
           <ul class="per3hourlist">
             <li ng-repeat="per3hour in weather3Hour.list">

@@ -1,3 +1,108 @@
+html,body,.wrap,.weather_wrap{
+  width:100%;
+  height: 100%;
+}
+// loading
+.loading{
+  background:#202020;
+  width: 100%;
+  height: 100%;
+  .spinner{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    color: #f00;
+    -webkit-animation: color-bubble 2s linear 0s infinite;
+    animation: color-bubble 2s linear 0s infinite;
+    &:after, &:before{
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      border-radius: 100%;
+      box-shadow: 0 0 0 3px;
+      -webkit-animation: spinner-bubble 1.3s linear 0s infinite;
+      animation: spinner-bubble 1.3s linear 0s infinite;
+      margin: auto;
+      width: 10px;
+      height: 10px;
+      opacity: 0;
+    }
+    &:before{
+      -webkit-animation: spinner-bubble 1.3s linear 2s infinite;
+      animation: spinner-bubble 1.3s linear 2s infinite;
+    }
+  }
+}
+@-webkit-keyframes spinner-bubble {
+  from {
+    width: 10px;
+    height: 10px;
+    opacity: .8;
+  }
+  to {
+    width: 50px;
+    height: 50px;
+    opacity: 0;
+  }
+}
+@keyframes spinner-bubble {
+  from {
+    width: 10px;
+    height: 10px;
+    opacity: .8;
+  }
+  to {
+    width: 50px;
+    height: 50px;
+    opacity: 0;
+  }
+}
+@-webkit-keyframes color-bubble {
+  0% {
+    color: #009DDC;
+  }
+  33% {
+    color: #50B949;
+  }
+  66% {
+    color: #EE2D24;
+  }
+  100% {
+    color: #FEB825;
+  }
+}
+@keyframes color-bubble {
+  0% {
+    color: #009DDC;
+  }
+  33% {
+    color: #50B949;
+  }
+  66% {
+    color: #EE2D24;
+  }
+  100% {
+    color: #FEB825;
+  }
+}
+
+// 主体内容
+.weather_wrap{
+  -webkit-transition: all 0.2s linear;
+  position: relative;
+  z-index: 10;
+  background: #fff;
+}
 .weather_main{
   position: absolute;
   z-index: 1;
@@ -20,6 +125,9 @@
   transform: translateZ(0);
 }
 
+.leftslider_btn{
+  font-size: 24px;
+}
 .per3hourwrapper {
   position: relative;
   width: 100%;
@@ -60,6 +168,17 @@
 }
 .per3hourwrapper .per3hourlist li .wi-degrees{
   font-size: 16px;
+}
+
+//leftslider
+.leftslider_wrap{
+  width: 80%;
+  position: absolute;
+  left:0;
+  top: 0;
+  height:100%;
+  background: #202020;
+  z-index: 1;
 }
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject

@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('arayDeWeather')
-  .controller('NavbarCtrl', function ($scope) {
+  .controller('LeftSliderCtrl', function ($scope) {
     $scope.date = new Date();
   });
