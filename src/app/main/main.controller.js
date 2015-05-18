@@ -176,6 +176,7 @@ angular.module('arayDeWeather')
       'weather_main': {
         snap:false,
         probeType: 2,
+        click:true,
         on: [
           { beforeScrollStart: function () {
             console.log('before:'+this.y)

@@ -6,7 +6,7 @@
   <div class="container weather_main" ng-iscroll="weather_main" ng-iscroll-delay='2000'>
     <div class="weather_content">
       <div class="pullrefresh">下拉刷新</div>
-      <a href="javascript:;" class="leftslider_btn" ng-click="callLeftSlider()"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
+      <a class="leftslider_btn glyphicon glyphicon-menu-hamburger" ng-click="callLeftSlider()"></a>
       <p>{{location.addressComponent.city}}</p>
       <p>{{weather.weather[0].description}}</p>
       <p><i class="wi {{weather.weather[0].icon}}"></i></p>
