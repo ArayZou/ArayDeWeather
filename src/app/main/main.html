@@ -1,11 +1,21 @@
-<div class="loading" ng-if="showloading">
+<div class="loading" ng-show="!showWeather">
   <div class="spinner"></div>
 </div>
-<div ng-if="!showloading" class="leftslider_wrap" ng-include="'app/components/leftslider/leftslider.html'"></div>
+<div ng-if="!showloading" class="leftslider_wrap">
+  <div class="leftslider">
+    <ul>
+      <li><a href="javascript:;">分享</a></li>
+      <li><a href="javascript:;">目前位置</a></li>
+      <li><a href="javascript:;">添加当前位置</a></li>
+    </ul>
+    <p>作者:ArayZou</p>
+    <p>你若安好，便是晴天</p>
+  </div>
+</div>
 <div ng-if="!showloading" class="weather_wrap" ng-style="showLeftSlider">
   <div class="container weather_main" ng-iscroll="weather_main" ng-iscroll-delay='2000'>
     <div class="weather_content">
-      <div class="pullrefresh">下拉刷新</div>
+      <div class="pullrefresh">下拉刷新{{pullLength}}</div>
       <a class="leftslider_btn glyphicon glyphicon-menu-hamburger" ng-click="callLeftSlider()"></a>
       <p>{{location.addressComponent.city}}</p>
       <p>{{weather.weather[0].description}}</p>

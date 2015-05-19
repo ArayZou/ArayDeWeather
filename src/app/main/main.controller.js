@@ -3,6 +3,7 @@
 angular.module('arayDeWeather')
   .controller('MainCtrl', function ($scope,$http,$window,$state,WeatherIcon,WeatherWindDeg,WeatherWindLevel,DateMoment) {
     $scope.showloading = true;
+    $scope.showWeather = false;
     $scope.weather = {};
     $scope.weather3Hour = {};
     $scope.forecastByDay = {};
@@ -165,27 +166,52 @@ angular.module('arayDeWeather')
     // 检查参数完整显示页面
     function checkDateComplete(){
       if($scope.weather && $scope.weather3Hour && $scope.forecastByDay){
-        //显示内容
+        //渲染内容
         $scope.showloading = false;
+        //显示内容
+        setTimeout(function(){
+          $scope.showWeather = true;
+          $scope.$digest();
+        },2100);
       }
     }
 
     getLocation();
 
+    $scope.ifRefresh = false;
+    $scope.ifShowRefresh = false;
+    $scope.pullLength = 0;
     $scope.$parent.myScrollOptions = {
       'weather_main': {
         snap:false,
         probeType: 2,
+        momentum: true,
         click:true,
+        startY:-80,
+        deceleration:0.005,
         on: [
           { beforeScrollStart: function () {
-            console.log('before:'+this.y)
           }},
           { scrollEnd: function () {
-            console.log('end:'+this.y)
+            var that = this;
+            if($scope.ifRefresh && this.directionY === -1){
+              that.scrollTo(0,0,200);
+              setTimeout(function(){
+                console.log('refresh');
+                $scope.ifRefresh = false;
+                that.scrollTo(0,-80,200);
+              },1000);
+            }else if(this.y>-80 && this.y<=0 ){
+              that.scrollTo(0,-80,100);
+            }
           }},
           { scroll: function () {
-            console.log('on:'+this.y)
+            var that = this;
+            if(!$scope.ifRefresh && this.y>0){
+              $scope.ifRefresh = true;
+            }
+            $scope.pullLength = this.y;
+            $scope.$digest();
           }}
         ]
       },
