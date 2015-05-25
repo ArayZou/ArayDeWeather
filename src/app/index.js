@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('arayDeWeather', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router', 'ui.bootstrap','ng-iscroll'])
+angular.module('arayDeWeather', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router','ng-iscroll'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {

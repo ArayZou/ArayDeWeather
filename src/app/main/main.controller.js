@@ -48,6 +48,9 @@ angular.module('arayDeWeather')
           weather.wind.windinfo = WeatherWindLevel(weather.wind.speed);
           //天气icon转换
           weather.weather[0].icon = WeatherIcon(weather.weather[0].id);
+          //日出日落转换
+          weather.sys.sunrise = DateMoment.getDateClock(weather.sys.sunrise);
+          weather.sys.sunset = DateMoment.getDateClock(weather.sys.sunset);
           checkDateComplete();
         }
       }).error(function(){

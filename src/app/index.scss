@@ -1,3 +1,8 @@
+/* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
+   all your sass files automatically */
+// injector
+// endinjector
+
 html,body,.wrap,.weather_wrap{
   width:100%;
   height: 100%;
@@ -137,49 +142,128 @@ html,body,.wrap,.weather_wrap{
 .pullrefresh.showrefresh{
   margin-top:0;
 }
-.leftslider_btn{
+// header bar
+.weather_header{
+  position: relative;
+}
+.bar .leftslider_btn{
   font-size: 24px;
 }
-.per3hourwrapper {
-  position: relative;
-  width: 100%;
-  height: 100px;
-  overflow: hidden;
-}
 
-.per3hourwrapper .per3hourscroller {
-  position: absolute;
-  z-index: 1;
-  width: 1000px;
-  height: 100%;
-  -webkit-transform: translateZ(0);
-  -moz-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  -o-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
-.per3hourwrapper .per3hourlist {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  height: 100%;
+// 当前天气
+.current_weather{
   text-align: center;
+  margin-bottom: 30px;
+  .current_info{
+    .current_wi{
+      font-size: 80px;
+      padding:15px 0 30px;
+    }
+    .current_infoline{
+      font-size: 22px;
+      margin:0;
+      .current_des{
+        padding:0 20px 0 0;
+      }
+      .current_temp{
+        wi{
+          font-size: 20px;
+        }
+      }
+    }
+  }
+  .current_maxminline,
+  .current_wind,
+  .current_moreline,
+  .current_suntime{
+    line-height: 30px;
+    font-size: 18px;
+  }
+  .current_maxminline{
+    .ion-ios-arrow-thin-down,
+    .ion-ios-arrow-thin-up{
+      font-size: 20px;
+      color: #666;
+      padding:0 3px;
+    }
+    .wi{
+      font-size: 20px;
+    }
+  }
+  .current_windinfo{
+    line-height: 24px;
+    font-size: 12px;
+  }
 }
 
-.per3hourwrapper .per3hourlist li {
-  display: block;
-  float: left;
-  width: 50px;
-  height: 100%;
-  font-size: 12px;
+//3小时预报
+.per3hour_body{
+  margin-bottom: 30px;
+  h2{
+    height: 28px;
+    line-height: 28px;
+    font-size: 16px;
+    font-weight: normal;
+    border-bottom: 1px solid #ccc;
+    padding:0 0 0 15px;
+    span{
+      color: #999;
+      font-size: 12px;
+    }
+  }
+  .per3hourwrapper {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+  }
+  .per3hourwrapper .per3hourscroller {
+    position: absolute;
+    z-index: 1;
+    width: 1000px;
+    height: 100%;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  .per3hourwrapper .per3hourlist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+  .per3hourwrapper .per3hourlist li {
+    display: block;
+    float: left;
+    width: 50px;
+    height: 100%;
+    font-size: 12px;
+  }
+  .per3hourwrapper .per3hourlist li .large-wi {
+    font-size: 20px;
+  }
+  .per3hourwrapper .per3hourlist li .wi-degrees{
+    font-size: 16px;
+  }
 }
-.per3hourwrapper .per3hourlist li .large-wi {
-  font-size: 20px;
-}
-.per3hourwrapper .per3hourlist li .wi-degrees{
-  font-size: 16px;
+
+.perday_body{
+  h2{
+    height: 28px;
+    line-height: 28px;
+    font-size: 16px;
+    font-weight: normal;
+    border-bottom: 1px solid #ccc;
+    padding:0 0 0 15px;
+    span{
+      color: #999;
+      font-size: 12px;
+    }
+  }
 }
 
 //leftslider
@@ -193,7 +277,3 @@ html,body,.wrap,.weather_wrap{
   z-index: 1;
 }
 
-/* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
-   all your sass files automatically */
-// injector
-// endinjector

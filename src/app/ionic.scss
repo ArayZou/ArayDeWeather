@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+@import
+  // Ionicons
+  "../assets/ionic_scss/ionicons/ionicons.scss",
+
+  // Variables
+  "../assets/ionic_scss/mixins",
+  "../assets/ionic_scss/variables",
+
+  // Base
+  "../assets/ionic_scss/reset",
+  "../assets/ionic_scss/scaffolding",
+  "../assets/ionic_scss/type",
+
+  // Components
+  "../assets/ionic_scss/action-sheet",
+  "../assets/ionic_scss/backdrop",
+  "../assets/ionic_scss/bar",
+  "../assets/ionic_scss/tabs",
+  "../assets/ionic_scss/menu",
+  "../assets/ionic_scss/modal",
+  "../assets/ionic_scss/popover",
+  "../assets/ionic_scss/popup",
+  "../assets/ionic_scss/loading",
+  "../assets/ionic_scss/items",
+  "../assets/ionic_scss/list",
+  "../assets/ionic_scss/badge",
+  "../assets/ionic_scss/slide-box",
+  "../assets/ionic_scss/refresher",
+  "../assets/ionic_scss/spinner",
+
+  // Forms
+  "../assets/ionic_scss/form",
+  "../assets/ionic_scss/checkbox",
+  "../assets/ionic_scss/toggle",
+  "../assets/ionic_scss/radio",
+  "../assets/ionic_scss/range",
+  "../assets/ionic_scss/select",
+  "../assets/ionic_scss/progress",
+
+  // Buttons
+  "../assets/ionic_scss/button",
+  "../assets/ionic_scss/button-bar",
+
+  // Util
+  "../assets/ionic_scss/grid",
+  "../assets/ionic_scss/util",
+  "../assets/ionic_scss/platform",
+
+  // Animations
+  "../assets/ionic_scss/animations",
+  "../assets/ionic_scss/transitions";
