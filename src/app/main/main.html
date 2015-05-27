@@ -3,19 +3,18 @@
 </div>
 <div ng-if="!showloading" class="leftslider_wrap">
   <div class="leftslider">
-    <ul>
-      <li><a href="javascript:;">分享</a></li>
-      <li><a href="javascript:;">目前位置</a></li>
-      <li><a href="javascript:;">添加当前位置</a></li>
-    </ul>
-    <p>作者:ArayZou</p>
-    <p>你若安好，便是晴天</p>
+    <div class="list leftslider_list">
+      <a href="javascript:;" class="item">分享</a>
+      <a href="javascript:;" class="item">目前位置</a>
+      <a href="javascript:;" class="item">添加当前位置</a>
+    </div>
+    <p class="bottom_editor">作者:ArayZou<br>你若安好，便是晴天</p>
   </div>
 </div>
 <div ng-if="!showloading" class="weather_wrap" ng-style="showLeftSlider">
   <div class="container weather_main" ng-iscroll="weather_main" ng-iscroll-delay='2000'>
     <div class="weather_content">
-      <div class="pullrefresh">下拉刷新{{pullLength}}</div>
+      <div class="pullrefresh">{{pullLength}}下拉刷新</div>
       <div class="weather_header bar bar-header">
         <a class="leftslider_btn icon ion-navicon button" ng-click="callLeftSlider()"></a>
         <h1 class="title">{{location.addressComponent.city}}</h1>
@@ -68,14 +67,19 @@
         <h2>未来15天预报<span>(每天)</span></h2>
         <chart value='basicAreaChart' type="area" height="300" chart-obj='chartObj'>
         </chart>
-        <ul>
-          <li ng-repeat="last10day in forecastByDayPart2">
-            {{last10day.timedate}}
-            周{{last10day.weekday}}
-            {{last10day.temp.max - 273.15  | number:0}}<i class="wi wi-degrees"></i>
-            {{last10day.temp.min - 273.15  | number:0}}<i class="wi wi-degrees"></i>
-            <i class="wi {{last10day.weather[0].icon}}"></i>
-            {{last10day.weather[0].description}}
+        <ul class="perday_list list">
+          <li class="item row" ng-repeat="last10day in forecastByDayPart2">
+            <span class="list_date col">
+              {{last10day.timedate}}
+              周{{last10day.weekday}}
+            </span>
+            <span class="list_weather col">
+              <i class="wi {{last10day.weather[0].icon}}"></i>
+              {{last10day.weather[0].description}}
+            </span>
+            <span class="list_temp col">
+              {{last10day.temp.max - 273.15  | number:0}}<i class="wi wi-degrees"></i> ~ {{last10day.temp.min - 273.15  | number:0}}<i class="wi wi-degrees"></i>
+            </span>
           </li>
         </ul>
       </div>

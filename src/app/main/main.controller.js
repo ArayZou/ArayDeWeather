@@ -200,7 +200,7 @@ angular.module('arayDeWeather')
             if($scope.ifRefresh && this.directionY === -1){
               that.scrollTo(0,0,200);
               setTimeout(function(){
-                console.log('refresh');
+                getLocation();
                 $scope.ifRefresh = false;
                 that.scrollTo(0,-80,200);
               },1000);
@@ -231,7 +231,7 @@ angular.module('arayDeWeather')
       if($scope.showLeftSlider){
         $scope.showLeftSlider = '';
       }else{
-        $scope.showLeftSlider = {'-webkit-transform': 'translateX(80%)'};
+        $scope.showLeftSlider = {'-webkit-transform': 'translateX(85%)'};
       }
     };
 
