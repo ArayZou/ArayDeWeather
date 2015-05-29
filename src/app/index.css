@@ -281,24 +281,26 @@ html, body, .wrap, .weather_wrap {
   .per3hour_body .per3hourwrapper .per3hourlist li .wi-degrees {
     font-size: 16px; }
 
-.perday_body h2 {
-  height: 28px;
-  line-height: 28px;
-  font-size: 16px;
-  font-weight: normal;
-  border-bottom: 1px solid #fff;
-  padding: 0 0 0 15px;
-  color: #fff; }
-  .perday_body h2 span {
+.perday_body {
+  padding: 0 0 30px; }
+  .perday_body h2 {
+    height: 28px;
+    line-height: 28px;
+    font-size: 16px;
+    font-weight: normal;
+    border-bottom: 1px solid #fff;
+    padding: 0 0 0 15px;
+    color: #fff; }
+    .perday_body h2 span {
+      color: #fff;
+      font-size: 12px; }
+  .perday_body .chart_xlabels {
     color: #fff;
-    font-size: 12px; }
-.perday_body .chart_xlabels {
-  color: #fff;
-  text-align: center; }
-.perday_body .perday_list .list_weather {
-  text-align: center; }
-.perday_body .perday_list .list_temp {
-  text-align: right; }
+    text-align: center; }
+  .perday_body .perday_list .list_weather {
+    text-align: center; }
+  .perday_body .perday_list .list_temp {
+    text-align: right; }
 
 .leftslider_wrap {
   width: 85%;
