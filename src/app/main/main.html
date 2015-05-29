@@ -1,6 +1,8 @@
 <div class="install_wrap" ng-if="!installed && !webopen">
-  <p>IOS用户请在Safari中打开并将本应用添加到主屏幕以获得最佳体验效果</p>
-  <a href="javascript:;" ng-click="openbyweb()">我就要这么打开</a>
+  <div class="install_intro">
+    <p class="intro_text">IOS用户请在Safari中打开并将本应用添加到主屏幕以获得最佳体验效果</p>
+    <a class="button button-energized" href="javascript:;" ng-click="openbyweb()">我就要这么打开</a>
+  </div>
 </div>
 <div class="iosheader" ng-if="installed"></div>
 <div class="wrap" ng-class="{iosdevice:installed}" ng-if="installed || webopen">
@@ -10,9 +12,9 @@
   <div snap-drawer="left" ng-if="!showloading" class="leftslider_wrap">
     <div class="leftslider">
       <div class="list leftslider_list">
-        <a href="javascript:;" class="item">分享</a>
+        <!--<a href="javascript:;" class="item">分享</a>-->
         <a href="javascript:;" class="item">当前位置</a>
-        <a href="javascript:;" class="item">添加当前位置</a>
+        <!--<a href="javascript:;" class="item">添加当前位置</a>-->
       </div>
       <p class="bottom_editor">作者:ArayZou<br>你若安好，便是晴天</p>
     </div>

@@ -110,6 +110,17 @@ html,body,.wrap,.weather_wrap{
   background: #68BB77;
   height: 100%;
   width: 100%;
+  .install_intro{
+    text-align: center;
+    .intro_text{
+      width: 80%;
+      margin: 0 auto 30px;
+      padding: 80px 0 0;
+    }
+    .button{
+      margin:0 auto;
+    }
+  }
 }
 
 .iosheader{
@@ -171,7 +182,7 @@ html,body,.wrap,.weather_wrap{
 }
 @-webkit-keyframes maskloadding {
   0%{
-    transform: rotate(0);
+    transform: rotate(0deg);
   }
   50%{
     transform: rotate(180deg);
@@ -182,7 +193,7 @@ html,body,.wrap,.weather_wrap{
 }
 @keyframes maskloadding {
   0%{
-    transform: rotate(0);
+    transform: rotate(0deg);
   }
   50%{
     transform: rotate(180deg);
@@ -194,9 +205,9 @@ html,body,.wrap,.weather_wrap{
 .weather_main{
   position: absolute;
   z-index: 1;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
+  top: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
   overflow: hidden;
   margin:0;
@@ -207,9 +218,6 @@ html,body,.wrap,.weather_wrap{
   z-index: 1;
   width: 100%;
   -webkit-transform: translateZ(0);
-  -moz-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  -o-transform: translateZ(0);
   transform: translateZ(0);
 }
 
@@ -247,7 +255,7 @@ html,body,.wrap,.weather_wrap{
         padding:0 20px 0 0;
       }
       .current_temp{
-        wi{
+        .wi{
           font-size: 20px;
         }
       }
