@@ -2,8 +2,28 @@
 
 angular.module('arayDeWeather')
   .controller('MainCtrl', function ($scope,$http,$window,$state,WeatherIcon,WeatherWindDeg,WeatherWindLevel,DateMoment) {
+    $scope.installed = false;
+    $scope.webopen = false;
+    // 判断是否加入桌面
+    if(navigator.standalone){
+      $scope.installed = true;
+    }
+    //安卓跳过判断
+    if (/android/.test(navigator.userAgent.toLowerCase())) {
+      $scope.webopen = true;
+      getLocation();
+    }
+    $scope.openbyweb = function(){
+      $scope.webopen = true;
+      getLocation();
+    };
+
     $scope.showloading = true;
     $scope.showWeather = false;
+    $scope.ifIos = true;
+    $scope.weatherDateComplete = false;
+    $scope.weather3HourDateComplete = false;
+    $scope.forecastByDayDateComplete = false;
     $scope.weather = {};
     $scope.weather3Hour = {};
     $scope.forecastByDay = {};
@@ -51,6 +71,8 @@ angular.module('arayDeWeather')
           //日出日落转换
           weather.sys.sunrise = DateMoment.getDateClock(weather.sys.sunrise);
           weather.sys.sunset = DateMoment.getDateClock(weather.sys.sunset);
+          //数据处理完成
+          $scope.weatherDateComplete = true;
           checkDateComplete();
         }
       }).error(function(){
@@ -74,6 +96,8 @@ angular.module('arayDeWeather')
 
           console.log(weather3Hour);
           $scope.weather3Hour = weather3Hour;
+          //数据处理完成
+          $scope.weather3HourDateComplete = true;
           checkDateComplete();
         }
       }).error(function () {
@@ -89,7 +113,6 @@ angular.module('arayDeWeather')
         if (forecastByDay.cod === '200') {
           console.log(forecastByDay);
           $scope.forecastByDay = forecastByDay;
-
           var dateArray = [],
             maxArray = [],
             minArray = [];
@@ -122,7 +145,9 @@ angular.module('arayDeWeather')
               spacingLeft: 0,
               spacingRight: 0,
               spacingTop: 0,
-              spacingBottom: 0
+              spacingBottom: 0,
+              backgroundColor: '#1F8A70',
+              borderColor: '#fff'
             },
             title: null,
             subtitle: null,
@@ -130,7 +155,8 @@ angular.module('arayDeWeather')
               categories: dateArray,
               labels: {
                 useHTML: true
-              }
+              },
+              lineColor: '#fff'
             },
             yAxis: {
               showEmpty: true,
@@ -139,7 +165,8 @@ angular.module('arayDeWeather')
               },
               title: {
                 text: null
-              }
+              },
+              lineColor: '#fff'
             },
             plotOptions: {
               line: {
@@ -151,14 +178,25 @@ angular.module('arayDeWeather')
             },
             series: [{
               name: 'max',
-              data: maxArray
+              data: maxArray,
+              color:'#fff',
+              dataLabels: {
+                enabled: true,
+                color: '#fff'
+              }
             }, {
               name: 'min',
-              data: minArray
+              data: minArray,
+              color:'#fff',
+              dataLabels: {
+                enabled: true,
+                color: '#fff'
+              }
             }]
           };
           $scope.basicAreaChart = chartdata;
-
+          //数据处理完成
+          $scope.forecastByDayDateComplete = true;
           checkDateComplete();
         }
       }).error(function () {
@@ -168,21 +206,26 @@ angular.module('arayDeWeather')
 
     // 检查参数完整显示页面
     function checkDateComplete(){
-      if($scope.weather && $scope.weather3Hour && $scope.forecastByDay){
+      if($scope.weatherDateComplete && $scope.weather3HourDateComplete && $scope.forecastByDayDateComplete){
         //渲染内容
         $scope.showloading = false;
         //显示内容
         setTimeout(function(){
           $scope.showWeather = true;
+          $scope.ifRefresh = false;
+          $scope.showMaskLoadding = false;
           $scope.$digest();
         },2100);
       }
     }
-
-    getLocation();
-
+    // 初始化数据
+    if($scope.installed || $scope.webopen){
+      getLocation();
+    }
+    // 下拉刷新
     $scope.ifRefresh = false;
     $scope.ifShowRefresh = false;
+    $scope.showMaskLoadding = false;
     $scope.pullLength = 0;
     $scope.$parent.myScrollOptions = {
       'weather_main': {
@@ -190,28 +233,26 @@ angular.module('arayDeWeather')
         probeType: 2,
         momentum: true,
         click:true,
-        startY:-80,
-        deceleration:0.005,
+        startY:0,
+        deceleration:0.0005,
         on: [
           { beforeScrollStart: function () {
           }},
           { scrollEnd: function () {
-            var that = this;
             if($scope.ifRefresh && this.directionY === -1){
-              that.scrollTo(0,0,200);
-              setTimeout(function(){
-                getLocation();
-                $scope.ifRefresh = false;
-                that.scrollTo(0,-80,200);
-              },1000);
-            }else if(this.y>-80 && this.y<=0 ){
-              that.scrollTo(0,-80,100);
+              $scope.showMaskLoadding = true;
+              $scope.weatherDateComplete = false;
+              $scope.weather3HourDateComplete = false;
+              $scope.forecastByDayDateComplete = false;
+              getLocation();
+              //$scope.ifRefresh = false;
             }
           }},
           { scroll: function () {
             var that = this;
-            if(!$scope.ifRefresh && this.y>0){
+            if(!$scope.ifRefresh && this.y>80){
               $scope.ifRefresh = true;
+              that.deceleration = 0.005;
             }
             $scope.pullLength = this.y;
             $scope.$digest();
@@ -227,71 +268,10 @@ angular.module('arayDeWeather')
       }
     };
 
-    $scope.callLeftSlider = function(){
-      if($scope.showLeftSlider){
-        $scope.showLeftSlider = '';
-      }else{
-        $scope.showLeftSlider = {'-webkit-transform': 'translateX(85%)'};
-      }
+    //snap配置项
+    $scope.snapOpts = {
+      disable: 'right',
+      touchToDrag: false
     };
 
-    //$scope.awesomeThings = [
-    //  {
-    //    'title': 'AngularJS',
-    //    'url': 'https://angularjs.org/',
-    //    'description': 'HTML enhanced for web apps!',
-    //    'logo': 'angular.png'
-    //  },
-    //  {
-    //    'title': 'BrowserSync',
-    //    'url': 'http://browsersync.io/',
-    //    'description': 'Time-saving synchronised browser testing.',
-    //    'logo': 'browsersync.png'
-    //  },
-    //  {
-    //    'title': 'GulpJS',
-    //    'url': 'http://gulpjs.com/',
-    //    'description': 'The streaming build system.',
-    //    'logo': 'gulp.png'
-    //  },
-    //  {
-    //    'title': 'Jasmine',
-    //    'url': 'http://jasmine.github.io/',
-    //    'description': 'Behavior-Driven JavaScript.',
-    //    'logo': 'jasmine.png'
-    //  },
-    //  {
-    //    'title': 'Karma',
-    //    'url': 'http://karma-runner.github.io/',
-    //    'description': 'Spectacular Test Runner for JavaScript.',
-    //    'logo': 'karma.png'
-    //  },
-    //  {
-    //    'title': 'Protractor',
-    //    'url': 'https://github.com/angular/protractor',
-    //    'description': 'End to end test framework for AngularJS applications built on top of WebDriverJS.',
-    //    'logo': 'protractor.png'
-    //  },
-    //  {
-    //    'title': 'Bootstrap',
-    //    'url': 'http://getbootstrap.com/',
-    //    'description': 'Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web.',
-    //    'logo': 'bootstrap.png'
-    //  },
-    //  {
-    //    'title': 'Angular UI Bootstrap',
-    //    'url': 'http://angular-ui.github.io/bootstrap/',
-    //    'description': 'Bootstrap components written in pure AngularJS by the AngularUI Team.',
-    //    'logo': 'ui-bootstrap.png'
-    //  },
-    //  {
-    //    'title': 'Sass (Node)',
-    //    'url': 'https://github.com/sass/node-sass',
-    //    'description': 'Node.js binding to libsass, the C version of the popular stylesheet preprocessor, Sass.',
-    //    'logo': 'node-sass.png'
-    //  }
-    //];
-    //angular.forEach($scope.awesomeThings, function(awesomeThing) {
-    //  awesomeThing.rank = Math.random();
-    //});
   });

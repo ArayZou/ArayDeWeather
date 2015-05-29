@@ -2,7 +2,8 @@
    all your sass files automatically */
 html, body, .wrap, .weather_wrap {
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  color: #fff; }
 
 .loading {
   background: #202020;
@@ -91,11 +92,81 @@ html, body, .wrap, .weather_wrap {
   100% {
     color: #FEB825; } }
 
+.install_wrap {
+  background: #68BB77;
+  height: 100%;
+  width: 100%; }
+
+.iosheader {
+  height: 20px;
+  background: #1f8a70; }
+
+.iosdevice {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  right: 0;
+  bottom: 0; }
+
 .weather_wrap {
   -webkit-transition: all 0.2s linear;
   position: relative;
   z-index: 10;
-  background: #fff; }
+  background: #1f8a70;
+  padding: 0 0 30px; }
+  .weather_wrap h1, .weather_wrap h2, .weather_wrap h3, .weather_wrap h4, .weather_wrap h5, .weather_wrap h6, .weather_wrap .h1, .weather_wrap .h2, .weather_wrap .h3, .weather_wrap .h4, .weather_wrap .h5, .weather_wrap .h6 {
+    color: #fff; }
+  .weather_wrap .item {
+    color: #fff;
+    border-color: #fff;
+    background-color: #1f8a70;
+    border-right: 0; }
+  .weather_wrap .view_mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999; }
+    .weather_wrap .view_mask .mask_loadding {
+      position: absolute;
+      font-size: 32px;
+      color: #fff;
+      left: 50%;
+      top: 50%;
+      width: 50px;
+      height: 50px;
+      margin: -25px 0 0 -25px;
+      background: rgba(0, 0, 0, 0.5);
+      text-align: center;
+      line-height: 50px;
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      border-radius: 8px; }
+      .weather_wrap .view_mask .mask_loadding:before {
+        -webkit-animation: maskloadding 1.2s linear infinite;
+        animation: maskloadding 1.2s linear infinite; }
+
+@-webkit-keyframes maskloadding {
+  0% {
+    transform: rotate(0); }
+
+  50% {
+    transform: rotate(180deg); }
+
+  100% {
+    transform: rotate(360deg); } }
+
+@keyframes maskloadding {
+  0% {
+    transform: rotate(0); }
+
+  50% {
+    transform: rotate(180deg); }
+
+  100% {
+    transform: rotate(360deg); } }
 
 .weather_main {
   position: absolute;
@@ -122,14 +193,14 @@ html, body, .wrap, .weather_wrap {
   height: 80px;
   text-align: center;
   line-height: 80px;
-  border: 1px solid #999;
-  margin-top: 0px; }
+  margin-top: -80px; }
 
 .pullrefresh.showrefresh {
   margin-top: 0; }
 
 .weather_header {
-  position: relative; }
+  position: relative;
+  background: #1f8a70; }
 
 .bar .leftslider_btn {
   font-size: 24px; }
@@ -156,7 +227,7 @@ html, body, .wrap, .weather_wrap {
   .current_weather .current_maxminline .ion-ios-arrow-thin-down,
   .current_weather .current_maxminline .ion-ios-arrow-thin-up {
     font-size: 20px;
-    color: #666;
+    color: #fff;
     padding: 0 3px; }
   .current_weather .current_maxminline .wi {
     font-size: 20px; }
@@ -171,10 +242,11 @@ html, body, .wrap, .weather_wrap {
     line-height: 28px;
     font-size: 16px;
     font-weight: normal;
-    border-bottom: 1px solid #ccc;
-    padding: 0 0 0 15px; }
+    border-bottom: 1px solid #fff;
+    padding: 0 0 0 15px;
+    color: #fff; }
     .per3hour_body h2 span {
-      color: #999;
+      color: #fff;
       font-size: 12px; }
   .per3hour_body .per3hourwrapper {
     position: relative;
@@ -214,11 +286,15 @@ html, body, .wrap, .weather_wrap {
   line-height: 28px;
   font-size: 16px;
   font-weight: normal;
-  border-bottom: 1px solid #ccc;
-  padding: 0 0 0 15px; }
+  border-bottom: 1px solid #fff;
+  padding: 0 0 0 15px;
+  color: #fff; }
   .perday_body h2 span {
-    color: #999;
+    color: #fff;
     font-size: 12px; }
+.perday_body .chart_xlabels {
+  color: #fff;
+  text-align: center; }
 .perday_body .perday_list .list_weather {
   text-align: center; }
 .perday_body .perday_list .list_temp {
