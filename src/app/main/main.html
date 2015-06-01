@@ -13,19 +13,21 @@
     <div class="leftslider">
       <div class="list leftslider_list">
         <!--<a href="javascript:;" class="item">分享</a>-->
-        <a href="javascript:;" class="item">当前位置</a>
-        <!--<a href="javascript:;" class="item">添加当前位置</a>-->
+        <a href="javascript:;" class="item" ng-click="currentPositionJump()">当前位置</a>
+        <a href="javascript:;" class="item" ng-repeat="position in positionArray" ng-click="positionJump('{{position.lat}}','{{position.lon}}','{{position.name}}')">{{position.name}}</a>
+        <a href="javascript:;" class="item" ng-click="showAddPositionFromFn()">添加当前位置</a>
       </div>
       <p class="bottom_editor">作者:ArayZou<br>你若安好，便是晴天</p>
     </div>
   </div>
   <div snap-content snap-options="snapOpts" ng-if="!showloading" class="weather_wrap">
-    <div class="container weather_main" ng-iscroll="weather_main" ng-iscroll-delay='2000'>
+    <div class="weather_main" ng-iscroll="weather_main" ng-iscroll-delay='2000'>
       <div class="weather_content">
         <div class="pullrefresh">{{pullLength}}下拉刷新</div>
         <div class="weather_header bar bar-header">
-          <a class="leftslider_btn icon ion-navicon button" snap-toggle="left"></a>
-          <h1 class="title">{{location.addressComponent.city}}</h1>
+          <a class="leftslider_btn icon ion-navicon button button-outline button-light" snap-toggle="left"></a>
+          <h1 class="title">{{currentPosition.name}}</h1>
+          <a class="button button-clear button-light icon ion-ios-plus-outline" ng-click="showAddPositionFromFn()"></a>
         </div>
         <div class="current_weather">
           <div class="current_info">
@@ -93,7 +95,21 @@
         </div>
       </div>
     </div>
-    <div class="view_mask" ng-show="showMaskLoadding"><div class="mask_loadding ion-android-refresh"></div></div>
-    <!--<snap-dragger class="draggerarea" ng-if="showLeftSlider"></snap-dragger>-->
+  </div>
+  <div class="view_mask" ng-show="showMaskLoadding"><div class="mask_loadding"><i class="ion-ios-loop"></i></div></div>
+  <div class="view_mask" ng-show="showAddPositionForm">
+    <div class="addpositon_form">
+      <div class="form_title">添加当前位置(可自定义名称)</div>
+      <div class="form_content">
+        <label class="form_input item-input">
+          <i class="icon ion-search placeholder-icon"></i>
+          <input type="text" placeholder="添加当前位置名称" ng-model="currentPosition.name">
+        </label>
+      </div>
+      <div class="button-bar">
+        <a class="button button-block button-light" ng-click="showAddPositionFromFn()">取消</a>
+        <a class="button button-block button-positive" ng-click="submitAddPosition()">添加</a>
+      </div>
+    </div>
   </div>
 </div>

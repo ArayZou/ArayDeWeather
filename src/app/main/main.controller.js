@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('arayDeWeather')
-  .controller('MainCtrl', function ($scope,$http,$window,$state,WeatherIcon,WeatherWindDeg,WeatherWindLevel,DateMoment) {
+  .controller('MainCtrl', function ($scope,$http,$window,$state,WeatherIcon,WeatherWindDeg,WeatherWindLevel,DateMoment,CommonStorage,snapRemote) {
     $scope.installed = false;
     $scope.webopen = false;
     // 判断是否加入桌面
     if(navigator.standalone){
       $scope.installed = true;
     }
+    $scope.installed = true;
     //安卓跳过判断
     if (/android/.test(navigator.userAgent.toLowerCase())) {
       $scope.webopen = true;
@@ -27,6 +28,9 @@ angular.module('arayDeWeather')
     $scope.weather = {};
     $scope.weather3Hour = {};
     $scope.forecastByDay = {};
+    $scope.currentPosition = {
+      name:''
+    };
     //H5定位
     function getLocation(){
       if ($window.navigator.geolocation) {
@@ -40,20 +44,31 @@ angular.module('arayDeWeather')
     function showPosition(position) {
       var lat = position.coords.latitude,
           lon = position.coords.longitude;
+      $scope.lat = lat;
+      $scope.lon = lon;
       console.log('lat:'+lat);
       console.log('lon:'+lon);
       //地理数据
-      $http.jsonp('http://api.map.baidu.com/geocoder/v2/?ak=izzcWKDNO77b3VodC1ipezPh&callback=JSON_CALLBACK&location='+lat+','+lon+'&output=json&pois=1').success(function(location){
-        console.log(location);
-        $scope.location = location.result;
-      });
-
+      httpCurrentPosition(lat,lon);
       httpCurrentWeather(lat,lon);
       httpForecast3hour(lat,lon);
       httpForecast16day(lat,lon);
     }
 
+    //位置名
+    function httpCurrentPosition(lat,lon){
+      $http.jsonp('http://api.map.baidu.com/geocoder/v2/?ak=izzcWKDNO77b3VodC1ipezPh&callback=JSON_CALLBACK&location='+lat+','+lon+'&output=json&pois=1').success(function(location){
+        console.log(location);
+        $scope.location = location.result;
+        $scope.currentPosition.name = $scope.location.addressComponent.city;
+      });
 
+      // 已保存position循环
+      $scope.positionArray = [];
+      if(CommonStorage.GetLocalStorage('PositionList')){
+        $scope.positionArray = CommonStorage.GetLocalStorage('PositionList');
+      }
+    }
     //当天天气数据
     function httpCurrentWeather(lat,lon){
       $http({
@@ -244,7 +259,10 @@ angular.module('arayDeWeather')
               $scope.weatherDateComplete = false;
               $scope.weather3HourDateComplete = false;
               $scope.forecastByDayDateComplete = false;
-              getLocation();
+              //刷新数据
+              httpCurrentWeather($scope.lat,$scope.lon);
+              httpForecast3hour($scope.lat,$scope.lon);
+              httpForecast16day($scope.lat,$scope.lon);
               //$scope.ifRefresh = false;
             }
           }},
@@ -273,5 +291,60 @@ angular.module('arayDeWeather')
       disable: 'right',
       touchToDrag: false
     };
+    //snap位置刷新
+    $scope.positionJump = function(lat,lon,name){
+      snapRemote.close();
+      $scope.lat = lat;
+      $scope.lon = lon;
+      $scope.showMaskLoadding = true;
+      $scope.weatherDateComplete = false;
+      $scope.weather3HourDateComplete = false;
+      $scope.forecastByDayDateComplete = false;
+      //地理数据
+      $scope.currentPosition.name = name;
+      httpCurrentWeather(lat,lon);
+      httpForecast3hour(lat,lon);
+      httpForecast16day(lat,lon);
+    };
+    //当前位置刷新
+    $scope.currentPositionJump = function(){
+      snapRemote.close();
+      $scope.showMaskLoadding = true;
+      $scope.weatherDateComplete = false;
+      $scope.weather3HourDateComplete = false;
+      $scope.forecastByDayDateComplete = false;
+      getLocation();
+    };
+    //添加当前位置
+    $scope.showAddPositionForm = false;
+    $scope.showAddPositionFromFn = function(){
+      snapRemote.close();
+      $scope.showAddPositionForm = $scope.showAddPositionForm ? false:true;
+    };
 
+    $scope.submitAddPosition= function(){
+      var position = [];
+      if(CommonStorage.GetLocalStorage('PositionList')){
+        position = CommonStorage.GetLocalStorage('PositionList');
+      }
+      console.log($scope.currentPosition.name)
+      for(var i=0;i<position.length;i++){
+        if($scope.currentPosition.name === position[i].name){
+          alert('位置名相同');
+          return false;
+        }
+      }
+      position.push({
+        lat: $scope.lat,
+        lon: $scope.lon,
+        name: $scope.currentPosition.name
+      });
+      CommonStorage.SetLocalStorage('PositionList',position);
+      $scope.positionArray.push({
+        lat: $scope.lat,
+        lon: $scope.lon,
+        name: $scope.currentPosition.name
+      });
+      $scope.showAddPositionForm = false;
+    };
   });
