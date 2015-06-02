@@ -139,7 +139,7 @@ html,body,.wrap,.weather_wrap{
   padding-top:20px;
   .snap-drawers{
     top:20px;
-    
+
   }
 }
 // 主体内容
@@ -355,7 +355,7 @@ html,body,.wrap,.weather_wrap{
 
 //leftslider
 .leftslider_wrap{
-  width: 85%;
+  width: 266px;
   position: absolute;
   left:0;
   top: 0;
@@ -366,10 +366,31 @@ html,body,.wrap,.weather_wrap{
   .leftslider_list{
     background: #202020;
     .item{
+      height:52px;
       background: #202020;
       border-color: #000;
       color: #fff;
       text-decoration: none;
+    }
+    .position_item{
+      padding:0;
+      .link{
+        float: left;
+        padding: 16px;
+        width: 200px;
+        color:#fff;
+        text-decoration: none;
+      }
+      .delete{
+        background: rgba(0,0,0,0.3);
+        float: right;
+        height:52px;
+        line-height: 52px;
+        font-size: 28px;
+        color: red;
+        width: 66px;
+        text-align: center;
+      }
     }
   }
   .bottom_editor{

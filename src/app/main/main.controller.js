@@ -8,7 +8,6 @@ angular.module('arayDeWeather')
     if(navigator.standalone){
       $scope.installed = true;
     }
-    $scope.installed = true;
     //安卓跳过判断
     if (/android/.test(navigator.userAgent.toLowerCase())) {
       $scope.webopen = true;
@@ -291,7 +290,8 @@ angular.module('arayDeWeather')
       disable: 'right',
       touchToDrag: false
     };
-    //snap位置刷新
+
+    //snap位置跳转刷新
     $scope.positionJump = function(lat,lon,name){
       snapRemote.close();
       $scope.lat = lat;
@@ -306,6 +306,7 @@ angular.module('arayDeWeather')
       httpForecast3hour(lat,lon);
       httpForecast16day(lat,lon);
     };
+
     //当前位置刷新
     $scope.currentPositionJump = function(){
       snapRemote.close();
@@ -315,13 +316,13 @@ angular.module('arayDeWeather')
       $scope.forecastByDayDateComplete = false;
       getLocation();
     };
+
     //添加当前位置
     $scope.showAddPositionForm = false;
     $scope.showAddPositionFromFn = function(){
       snapRemote.close();
       $scope.showAddPositionForm = $scope.showAddPositionForm ? false:true;
     };
-
     $scope.submitAddPosition= function(){
       var position = [];
       if(CommonStorage.GetLocalStorage('PositionList')){
@@ -346,5 +347,16 @@ angular.module('arayDeWeather')
         name: $scope.currentPosition.name
       });
       $scope.showAddPositionForm = false;
+    };
+
+    //删除位置
+    $scope.deletePosition = function(name){
+      for(var i=0;i<$scope.positionArray.length;i++){
+        if(name == $scope.positionArray[i].name){
+          $scope.positionArray.splice(i,1);
+          CommonStorage.SetLocalStorage('PositionList',$scope.positionArray);
+          break;
+        }
+      }
     };
   });

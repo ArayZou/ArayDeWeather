@@ -291,7 +291,7 @@ html, body, .wrap, .weather_wrap {
     text-align: right; }
 
 .leftslider_wrap {
-  width: 85%;
+  width: 266px;
   position: absolute;
   left: 0;
   top: 0;
@@ -302,10 +302,28 @@ html, body, .wrap, .weather_wrap {
   .leftslider_wrap .leftslider_list {
     background: #202020; }
     .leftslider_wrap .leftslider_list .item {
+      height: 52px;
       background: #202020;
       border-color: #000;
       color: #fff;
       text-decoration: none; }
+    .leftslider_wrap .leftslider_list .position_item {
+      padding: 0; }
+      .leftslider_wrap .leftslider_list .position_item .link {
+        float: left;
+        padding: 16px;
+        width: 200px;
+        color: #fff;
+        text-decoration: none; }
+      .leftslider_wrap .leftslider_list .position_item .delete {
+        background: rgba(0, 0, 0, 0.3);
+        float: right;
+        height: 52px;
+        line-height: 52px;
+        font-size: 28px;
+        color: red;
+        width: 66px;
+        text-align: center; }
   .leftslider_wrap .bottom_editor {
     position: absolute;
     bottom: 10px;

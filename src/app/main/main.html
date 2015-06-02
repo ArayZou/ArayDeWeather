@@ -14,10 +14,13 @@
       <div class="list leftslider_list">
         <!--<a href="javascript:;" class="item">分享</a>-->
         <a href="javascript:;" class="item" ng-click="currentPositionJump()">当前位置</a>
-        <a href="javascript:;" class="item" ng-repeat="position in positionArray" ng-click="positionJump('{{position.lat}}','{{position.lon}}','{{position.name}}')">{{position.name}}</a>
+        <div class="item position_item" ng-repeat="position in positionArray">
+          <a class="link" href="javascript:;" ng-click="positionJump('{{position.lat}}','{{position.lon}}','{{position.name}}')">{{position.name}}</a>
+          <span class="delete" ng-click="deletePosition('{{position.name}}')"><i class="ion-ios-minus-outline"></i></span>
+        </div>
         <a href="javascript:;" class="item" ng-click="showAddPositionFromFn()">添加当前位置</a>
       </div>
-      <p class="bottom_editor">作者:ArayZou<br>你若安好，便是晴天</p>
+      <p class="bottom_editor">作者:ArayZou<br>你若安好，便是晴天<br/>项目源码：github.com/ArayZou/ArayDeWeather</p>
     </div>
   </div>
   <div snap-content snap-options="snapOpts" ng-if="!showloading" class="weather_wrap">
