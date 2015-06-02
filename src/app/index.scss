@@ -159,28 +159,6 @@ html,body,.wrap,.weather_wrap{
     border-right: 0;
   }
 }
-@-webkit-keyframes maskloadding {
-  0%{
-    transform: rotate(0deg);
-  }
-  50%{
-    transform: rotate(180deg);
-  }
-  100%{
-    transform: rotate(360deg);
-  }
-}
-@keyframes maskloadding {
-  0%{
-    transform: rotate(0deg);
-  }
-  50%{
-    transform: rotate(180deg);
-  }
-  100%{
-    transform: rotate(360deg);
-  }
-}
 .weather_main{
   position: absolute;
   z-index: 1;
@@ -458,6 +436,29 @@ html,body,.wrap,.weather_wrap{
         border:1px solid #ccc;
       }
     }
+  }
+}
+
+@-webkit-keyframes maskloadding {
+  0%{
+    -webkit-transform: rotate(0deg);
+  }
+  50%{
+    -webkit-transform: rotate(180deg);
+  }
+  100%{
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes maskloadding {
+  0%{
+    transform: rotate(0deg);
+  }
+  50%{
+    transform: rotate(180deg);
+  }
+  100%{
+    transform: rotate(360deg);
   }
 }
 
