@@ -19,7 +19,12 @@
 
 --------------------------------------
 
-### thanks
+### build by:
 
 - yo
 - generator-gulp-angular
+- ionic(style)
+- weathericons
+- angular-snap
+- iscroll
+- highcharts
